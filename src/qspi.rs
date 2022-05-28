@@ -79,7 +79,7 @@ impl Qspi {
             // Single flash mode with a QSPI clock prescaler of 2 (216 / 2 = 108 MHz), FIFO
             // threshold only matters for DMA and is set to 4 to allow word sized DMA requests
             qspi.cr
-                .write_with_zero(|w| w.prescaler().bits(1).fthres().bits(3).en().set_bit());
+                .write_with_zero(|w| w.prescaler().bits(15).fthres().bits(3).en().set_bit());
 
             // Set the device size
             qspi.dcr.write_with_zero(|w| w.fsize().bits(size - 1));
