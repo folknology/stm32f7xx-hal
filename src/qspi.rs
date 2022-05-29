@@ -88,6 +88,13 @@ impl Qspi {
         Qspi { qspi, adsize }
     }
 
+    /// Set the prescaler to change qspi clock frequency divider sysclk/(div + 1)
+    pub fn prescale(&mut self, div: u8) {
+        unsafe {
+            self.qspi.cr.write_with_zero(|w| w.prescaler().bits(div).fthres().bits(3).en().set_bit());
+        }
+    }
+
     /// DMA read. Wrapper around the HAL DMA driver. Performs QSPI register programming, creates a
     /// DMA transfer from peripheral to memory, and starts the transfer. Caller can use the DMA
     /// `wait` API to block until the transfer is complete.
